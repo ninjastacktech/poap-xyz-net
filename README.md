@@ -20,15 +20,15 @@ PM> Install-Package Poap
 ```C#
 var options = new PoapClientOptions
 {
-    ApiKey = "",
-    ClientId = "",
-    ClientSecret = "",
-    Audience = "",
+    ApiKey = "<api_key>",
+    ClientId = "<client_id>",
+    ClientSecret = "<client_secret>",
+    Audience = "<audience>",
 };
 
 var client = new PoapClient(options);
 
-var token = await client.GetTokenAsync("6049148");
+var token = await client.GetTokenAsync("<token_id>");
 
 ```
 
