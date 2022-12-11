@@ -9,5 +9,8 @@ namespace Poap
 
         [JsonProperty("tokensOwned")]
         public int? TokensOwned { get; set; }
+
+        [JsonProperty("ens")]
+        public string? Ens { get; set; }
     }
 }
