@@ -40,6 +40,9 @@ public class Event
     [JsonProperty("expiry_date")]
     public DateTime? ExpiryDate { get; set; }
 
+    [JsonProperty("supply")]
+    public int? Supply { get; set; }
+
     [JsonProperty("from_admin")]
     public bool? IsFromAdmin { get; set; }
 

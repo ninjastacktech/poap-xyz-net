@@ -67,6 +67,34 @@ public class PoapClient : IPoapClient
         return jo?.ToObject<Authenticated>();
     }
 
+    public async Task<List<Event>> ScanAddressAsync(string address, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(address))
+        {
+            throw new ArgumentException(string.Format("{0} must not be null.", nameof(address)), nameof(address));
+        }
+
+        var uriPart = $"actions/scan/{address}";
+
+        var response = await RequestAsync(_baseUrl, uriPart, HttpMethod.Get, ct: cancellationToken);
+
+        var ja = JArray.Parse(response);
+
+        var list = new List<Event>();
+
+        foreach (var jo in ja)
+        {
+            var item = jo.ToObject<Event>();
+
+            if (item != null)
+            {
+                list.Add(item);
+            }
+        }
+
+        return list;
+    }
+
     public async Task<Token?> GetTokenAsync(string tokenId, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(tokenId))
@@ -85,6 +113,11 @@ public class PoapClient : IPoapClient
 
     public async Task<PaginatedItems<Event>?> GetEventsPaginatedAsync(long offset = 0, int limit = 10, CancellationToken cancellationToken = default)
     {
+        if (limit > 1000)
+        {
+            throw new ArgumentException(string.Format("{0} must be set to a value lesser than 300.", nameof(limit)), nameof(limit));
+        }
+
         var uriPart = $"paginated-events";
 
         var queryParams = new List<(string, string)> { ("offset", offset.ToString()), ("limit", limit.ToString()) };
@@ -101,6 +134,11 @@ public class PoapClient : IPoapClient
         if (string.IsNullOrWhiteSpace(eventId))
         {
             throw new ArgumentException(string.Format("{0} must not be null.", nameof(eventId)), nameof(eventId));
+        }
+
+        if (limit > 300)
+        {
+            throw new ArgumentException(string.Format("{0} must be set to a value lesser than 300.", nameof(limit)), nameof(limit));
         }
 
         var queryParams = new List<(string, string)> { ("offset", offset.ToString()), ("limit", limit.ToString()) };
