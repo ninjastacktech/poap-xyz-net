@@ -67,7 +67,7 @@ public class PoapClient : IPoapClient
         return jo?.ToObject<Authenticated>();
     }
 
-    public async Task<List<Event>> ScanAddressAsync(string address, CancellationToken cancellationToken = default)
+    public async Task<List<Token>> ScanAddressAsync(string address, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(address))
         {
@@ -80,11 +80,11 @@ public class PoapClient : IPoapClient
 
         var ja = JArray.Parse(response);
 
-        var list = new List<Event>();
+        var list = new List<Token>();
 
         foreach (var jo in ja)
         {
-            var item = jo.ToObject<Event>();
+            var item = jo.ToObject<Token>();
 
             if (item != null)
             {

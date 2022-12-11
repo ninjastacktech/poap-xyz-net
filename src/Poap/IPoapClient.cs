@@ -17,7 +17,7 @@ public interface IPoapClient
     /// <param name="address">The Ethereum address, ENS, or email.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<List<Event>> ScanAddressAsync(string address, CancellationToken cancellationToken = default);
+    Task<List<Token>> ScanAddressAsync(string address, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// For the specified token ID, this endpoint returns the event details, token ID, owner's address, layer the POAP is currently on, and the POAP supply for that event.
